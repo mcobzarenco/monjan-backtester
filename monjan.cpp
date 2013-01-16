@@ -21,13 +21,12 @@ np::ndarray cumsum(const np::ndarray& arr) {
 	int ncols = arr.shape(1);
 	// Py_intptr_t const* strides = arr.get_strides();
 	np::ndarray py_cumsum = np::zeros(p::make_tuple(ncols), np::dtype::get_builtin<double>());
-	double* cdata = reinterpret_cast<double *>(py_cumsum.get_data());
-	Eigen::Map<Eigen::MatrixXd> cumsum(cdata, 1, ncols);
+	Eigen::Map<Eigen::MatrixXd> cumsum(reinterpret_cast<double *>(py_cumsum.get_data()), 1, ncols);
 
-	const double* const data = reinterpret_cast<double const *>(arr.get_data());
+	double const* const data = reinterpret_cast<double const*>(arr.get_data());
 	for(int i = 0; i < nrows; i++) {
 		for(int j = 0; j < ncols; j++) {
-			cumsum(j) += *(data + i * ncols + j);
+			cumsum(j) += data[i * ncols + j];
 		}
 	}
 	return py_cumsum;
