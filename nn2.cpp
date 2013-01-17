@@ -99,14 +99,14 @@ int main(int argc, char **argv) {
 	pm("w2", w2);
 
 
-	double l = 0.001;
+	double l = 0.25;
 	std::vector<double> dxs(12);
 	std::vector<double> dxs2(3);
 	adouble o;
-	for(int n = 0; n < 1000000; n++) {
+	for(int n = 0; n < 200000; n++) {
 		o = obj2(X, y, w, w2);
 		if(n % 1000 == 0)
-			cout << "Objective: " << o << endl;
+			cout << "Objective: " << o.val() << endl;
 		// pm("w", w);
 		//cout << "Grad: ";
 		for(int i = 0; i < w.size1(); i++) {
